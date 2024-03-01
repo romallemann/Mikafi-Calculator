@@ -155,6 +155,9 @@ function App() {
                 size="small"
                 pourcent={beverageSalesIncrease}
                 type="kg"
+                comment={
+                  (expectedBeverageCoffeeUsed / 24).toFixed(1) + ' kg / day'
+                }
               ></Value>
               <Value
                 label="Average Beverage Price"

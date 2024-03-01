@@ -7,6 +7,7 @@ const Value = ({
   size,
   type = '$',
   negative = false,
+  comment,
 }) => {
   const formatMoney = value => {
     const newFormat = value.toLocaleString('en-US', {
@@ -42,17 +43,24 @@ const Value = ({
         {type === '$' && '$' + formatMoney(value)}
         {type === 'kg' && value.toFixed(2) + 'kg'}
       </span>
-      {pourcent && (
-        <span
-          className={classNames('pl-1 text text-lg ', {
-            'text-green': trafficLight(),
-            'text-red-600': trafficLight() === false,
-          })}
-        >
-          ({addPlusToPositive(pourcent.toFixed(1))}
-          %)
-        </span>
-      )}
+      <span>
+        {comment && (
+          <span className="opacity-50 text text-lg pointer-events-none ml-1	select-none text-right">
+            {comment}
+          </span>
+        )}
+        {pourcent && (
+          <span
+            className={classNames('pl-1 text text-lg ', {
+              'text-green': trafficLight(),
+              'text-red-600': trafficLight() === false,
+            })}
+          >
+            ({addPlusToPositive(pourcent.toFixed(1))}
+            %)
+          </span>
+        )}
+      </span>
     </div>
   );
 };
