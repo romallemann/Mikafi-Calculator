@@ -13,14 +13,14 @@ function App() {
   const payPerRoastFee = 2.0;
   const greenCoffeeKgPrice = 9.0;
   const packagingCostBags = 1.0;
-  const [beverageSalesIncrease, setBeverageSalesIncrease] = useState(1.1);
-  const [beveragePriceIncrease, setBeveragePriceIncrease] = useState(1.1);
+  const [beverageSalesIncrease, setBeverageSalesIncrease] = useState(10);
+  const [beveragePriceIncrease, setBeveragePriceIncrease] = useState(10);
   const [currentPredictionType, setCurrentPredictionType] =
     useState('Realistic');
 
   //CURRENT
 
-  const [currentCoffeeUsed, setCurrentCoffeeUsed] = useState(60);
+  const [currentCoffeeUsed, setCurrentCoffeeUsed] = useState(60.0);
   const [currentBeveragePrice, setCurrentBeveragePrice] = useState(5.0);
   const [currentCoffeePurchasingPrice, setCurrentCoffeePurchasingPrice] =
     useState(30.0);
@@ -32,8 +32,10 @@ function App() {
   //EXPECTED
 
   //Turnover
-  const expectedBeverageCoffeeUsed = currentCoffeeUsed * beverageSalesIncrease;
-  const expectedBeveragePrice = currentBeveragePrice * beveragePriceIncrease;
+  const expectedBeverageCoffeeUsed =
+    currentCoffeeUsed * (beverageSalesIncrease / 100 + 1);
+  const expectedBeveragePrice =
+    currentBeveragePrice * (beveragePriceIncrease / 100 + 1);
   const expectedBeverageTurnover =
     (expectedBeverageCoffeeUsed / gramOfCoffeePerBeverage) *
     expectedBeveragePrice;
@@ -63,64 +65,56 @@ function App() {
   const coffeeBagCosts = expectedKgCoffeeSold * coffeeBagCostPerKG;
   const coffeeBagProfit = coffeeBagTurnover - coffeeBagCosts;
 
-  const addPlusToPositive = number => {
-    return number > 0 ? `+${number}` : number.toString();
-  };
-
   const pessimistic = () => {
-    setBeverageSalesIncrease(1.05);
-    setBeveragePriceIncrease(1.1);
+    setBeverageSalesIncrease(5);
+    setBeveragePriceIncrease(5);
     setCurrentPredictionType('Pessimistic');
   };
   const realistic = () => {
-    setBeverageSalesIncrease(1.1);
-    setBeveragePriceIncrease(1.1);
+    setBeverageSalesIncrease(10);
+    setBeveragePriceIncrease(10);
     setCurrentPredictionType('Realistic');
   };
   const optimistic = () => {
-    setBeverageSalesIncrease(1.2);
-    setBeveragePriceIncrease(1.1);
+    setBeverageSalesIncrease(20);
+    setBeveragePriceIncrease(10);
     setCurrentPredictionType('Optimistic');
   };
 
-  const formatMoney = value => {
-    const newFormat = value.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-    return newFormat;
-  };
-
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
-      <div className="App md:scale-100 flex-col md:flex-row flex gap-6 m-8 h-screen max-h-[720px] w-full max-w-[1500px] justify-center">
-        <div className="w-full md:w-[28%] current px-8 pt-8 pb-10 h-full flex flex-col justify-between">
-          <div className="flex flex-col gap-8">
-            <div className="flex flex-col gap-4">
-              <h1 className="section-title">Your Current Situation</h1>
+    <div className="w-screen md:h-screen md:flex md:justify-center items-center">
+      <div className="flex-col md:flex-row flex gap-6 md:m-8 h-screen max-h-[720px] w-full max-w-[1500px] md:justify-center">
+        <div className="w-full md:w-[28%] current px-6 py-8 md:px-8 md:pt-8 md:pb-10  flex flex-col justify-between">
+          <div className="flex flex-col gap-2 md:gap-8">
+            <div className="flex flex-col gap-0 md:gap-4">
+              <h1 className="section-title">Your Monthly Coffee Business</h1>
               <p className="text h-16">
                 The numbers are calculated with an average of 15gr of coffee per
                 beverage and 24 open days per month
               </p>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 min-w-[200px] w-11/12 pb-8 md:pb-0">
               <Input
                 value={currentCoffeeUsed}
                 onChange={setCurrentCoffeeUsed}
-                label="Coffee Used"
+                label="Monthly Amount of Coffee Sold"
                 unit="kg"
+                increment={1}
+                comment={(currentCoffeeUsed / 24).toFixed(1) + ' kg / day'}
               ></Input>
               <Input
                 value={currentBeveragePrice}
                 onChange={setCurrentBeveragePrice}
                 label="Average Beverage Price"
                 unit="$"
+                increment={0.1}
               ></Input>
               <Input
                 value={currentCoffeePurchasingPrice}
                 onChange={setCurrentCoffeePurchasingPrice}
                 label="Coffee Purchasing Price by kg"
                 unit="$"
+                increment={1}
               ></Input>
             </div>
           </div>
@@ -136,8 +130,8 @@ function App() {
             <Value label="Profit" value={currentProfit} size="large"></Value>
           </div>
         </div>
-        <div className="w-full md:w-[36%] px-8 pt-8 pb-10  bg-white h-full flex flex-col justify-between gap-4">
-          <div className="flex flex-col gap-8">
+        <div className="w-full md:w-[36%] px-6 py-8 md:px-8 md:pt-8 md:pb-10  bg-white h-full flex flex-col justify-between gap-4">
+          <div className="flex flex-col gap-2 md:gap-8">
             <div className="flex flex-col gap-4">
               <h1 className="section-title">
                 Coffee Beverages Business with Mikafi
@@ -154,19 +148,19 @@ function App() {
                 ></Toggle>
               </div>
             </div>
-            <div className="flex flex-col justify-center gap-8">
+            <div className="flex flex-col justify-center gap-7 py-3">
               <Value
-                label="Coffee Used"
+                label="Monthly Amount of Coffee Sold"
                 value={expectedBeverageCoffeeUsed}
                 size="small"
-                pourcent={beverageSalesIncrease * 100 - 100}
+                pourcent={beverageSalesIncrease}
                 type="kg"
               ></Value>
               <Value
                 label="Average Beverage Price"
                 value={expectedBeveragePrice}
                 size="small"
-                pourcent={beveragePriceIncrease * 100 - 100}
+                pourcent={beveragePriceIncrease}
               ></Value>
               <Value
                 label="Roasted Coffee Price"
@@ -192,7 +186,7 @@ function App() {
                 }
               ></Value>
               <Value
-                label="Csts"
+                label="Costs"
                 value={expectedBeverageCosts}
                 size="small"
                 negative
@@ -208,7 +202,7 @@ function App() {
           </div>
         </div>
         <div className="w-full md:w-[36%] h-full flex flex-col gap-6">
-          <div className=" gap-4 px-8 pt-8 pb-10 flex flex-col justify-between bg-white h-1/2">
+          <div className=" gap-4 p-6 md:px-8 md:pt-8 md:pb-10 flex flex-col justify-between bg-white h-1/2">
             <h1 className="section-title">Coffee Bags Sales with Mikafi</h1>
             <Slider
               label="250gr bags sold daily"
@@ -232,7 +226,7 @@ function App() {
               <Value label="Costs" value={coffeeBagCosts} size="small"></Value>
             </div>
           </div>
-          <div className="px-8 pt-8 pb-10 bg-[#FBEDD9] h-1/2 flex flex-col justify-between">
+          <div className="p-6 md:px-8 md:pt-8 md:pb-10 bg-[#FBEDD9] h-1/2 flex flex-col justify-between">
             <h1 className="section-title">Total Coffee Business with Mikafi</h1>
 
             <div className="flex flex-col justify-between gap-8">
