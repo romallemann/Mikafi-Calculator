@@ -7,6 +7,7 @@ import Value from './value';
 
 function App() {
   //General
+  const machinePurchasePrice = 9900;
   const gramOfCoffeePerBeverage = 0.015;
   const subscriptionFee = 390.0;
   const openDays = 24;
@@ -20,7 +21,7 @@ function App() {
 
   //CURRENT
 
-  const [currentCoffeeUsed, setCurrentCoffeeUsed] = useState(60.0);
+  const [currentCoffeeUsed, setCurrentCoffeeUsed] = useState(40.0);
   const [currentBeveragePrice, setCurrentBeveragePrice] = useState(5.0);
   const [currentCoffeePurchasingPrice, setCurrentCoffeePurchasingPrice] =
     useState(30.0);
@@ -53,6 +54,8 @@ function App() {
   //Profit
   const expectedBeverageProfit =
     expectedBeverageTurnover - expectedBeverageCosts;
+  const expectageBeverageBreakeven =
+    machinePurchasePrice / (expectedBeverageProfit - currentProfit) + 1;
 
   // COFFEE BAGS
 
@@ -64,6 +67,10 @@ function App() {
   const coffeeBagTurnover = expectedKgCoffeeSold * coffeeBagKgSellingPrice;
   const coffeeBagCosts = expectedKgCoffeeSold * coffeeBagCostPerKG;
   const coffeeBagProfit = coffeeBagTurnover - coffeeBagCosts;
+  const coffeeBagBreakeven =
+    machinePurchasePrice /
+      (coffeeBagProfit + expectedBeverageProfit - currentProfit) +
+    1;
 
   const pessimistic = () => {
     setBeverageSalesIncrease(5);
@@ -202,6 +209,9 @@ function App() {
               size="large"
               pourcent={expectedBeverageProfit / (currentProfit / 100) - 100}
             ></Value>
+            <div className="text-sm font-medium -mt-7">
+              {expectageBeverageBreakeven.toFixed(0) + ' months to Break Even'}
+            </div>
           </div>
         </div>
         <div className="w-full md:w-[36%] h-full flex flex-col gap-6">
@@ -260,6 +270,9 @@ function App() {
                   100
                 }
               ></Value>
+              <div className="text-sm font-medium -mt-7">
+                {coffeeBagBreakeven.toFixed(0) + ' months to Break Even'}
+              </div>
             </div>
           </div>
         </div>
