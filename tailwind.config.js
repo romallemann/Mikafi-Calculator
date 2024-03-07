@@ -7,6 +7,16 @@ export default {
         // Give your font a name (e.g., 'myFont')
         myFont: ['NeueHaasGrotesk', 'sans-serif'],
       },
+      fontSize: {
+        sm: '0.8rem',
+        base: '1rem',
+        lg: '1.18rem',
+        xl: '1.25rem',
+        '2xl': '1.563rem',
+        '3xl': '1.953rem',
+        '4xl': '2.441rem',
+        '5xl': '3.052rem',
+      },
       colors: {
         orange: '#EDA540',
         green: '#039855',

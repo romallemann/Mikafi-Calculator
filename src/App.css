@@ -38,19 +38,25 @@ body {
 }
 
 .section-title {
-  @apply text-base font-medium pb-4 tracking-wide;
+  @apply text-sm font-medium pb-4 tracking-wide;
 }
 
 .number-large {
-  @apply text-3xl font-normal tracking-wide;
+  @apply text-lg font-medium tracking-wide;
 }
 
 .number-small {
-  @apply text-xl font-normal tracking-wide;
+  @apply text-lg font-normal tracking-wide;
 }
 
 .text {
   @apply text-sm font-normal pb-1;
+}
+.toggle-text-large {
+  @apply font-normal text-xs tracking-wide;
+}
+.toggle-text-small {
+  @apply font-normal text-xs  tracking-wide;
 }
 
 .label {

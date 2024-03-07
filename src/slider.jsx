@@ -16,7 +16,7 @@ const Slider = ({ label, min, max, value, onChange }) => {
 
   return (
     <div className="slider flex flex-col text-center">
-      <h2 className="text-4xl font-medium ">{currentValue}</h2>
+      <h2 className="text-3xl font-medium ">{currentValue}</h2>
       <span className="text py-2 mb-8">{label}</span>
       <input
         type="range"

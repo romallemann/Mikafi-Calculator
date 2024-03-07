@@ -8,11 +8,15 @@ const Value = ({
   type = '$',
   negative = false,
   comment,
+  sign = 'auto',
 }) => {
   const formatMoney = value => {
     const newFormat = value.toLocaleString('en-US', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
+      signDisplay: sign,
+      style: 'currency',
+      currency: 'USD',
     });
     return newFormat;
   };
@@ -39,8 +43,7 @@ const Value = ({
           'number-small': size === 'small',
         })}
       >
-        {size === 'large' && '='}
-        {type === '$' && '$' + formatMoney(value)}
+        {type === '$' && formatMoney(value)}
         {type === 'kg' && value.toFixed(2) + 'kg'}
       </span>
       <span>
